@@ -316,6 +316,9 @@ function start(){
         if (err) throw err;
         //const id = res.insertId;
         start(); 
+
+        module.import = connection;
+        
       }
     )
   })

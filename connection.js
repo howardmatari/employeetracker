@@ -1,5 +1,6 @@
 const util = require("util");
 const mysql = require("mysql");
+const connection = require("./connection")
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -18,5 +19,7 @@ connection.connect(function(err) {
         if (err)
         throw err;
         console.log("Table Created");
+
+        module.exports =connection;
     })
 });
