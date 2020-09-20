@@ -190,7 +190,7 @@ function start(){
       }
     ])
     .then (function(res){
-      const query = connection.query(
+      //const query = connection.query(
         "INSERT INTO employees SET ?", 
        res,
         function(err, res) {
@@ -199,7 +199,7 @@ function start(){
   
           start (); 
         }
-      );    
+      //);
     })
   }
   function viewAllEmployees() {

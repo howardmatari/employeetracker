@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `employees`.`department` (
   INDEX `department_id_idx` (`department_id` ASC),
   CONSTRAINT `department_id`
     FOREIGN KEY (`department_id`)
-    REFERENCES `mydb`.`department` (`id`)
+    REFERENCES `employees`.`department` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 

@@ -12,3 +12,11 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
+    console.log("Connected!");
+    const sql = "CREATE TABLE employees (name VARCHAR(30), id INT, title VARCHAR(30), department_name VARCHAR(30), salary DECIMAL "
+    connection.query(sql, function(err, result) {
+        if (err)
+        throw err;
+        console.log("Table Created");
+    })
+});
