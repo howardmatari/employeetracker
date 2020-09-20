@@ -1,3 +1,9 @@
+const inquirer = require("inquirer");
+require("console.table");
+const connection = require("./connection.js")
+
+
+
 // function insertProduct(item_name,category,starting_bid) {
 //     connection.query(`INSERT INTO auctions SET ?`,{item_name,category,starting_bid,highest_bid:starting_bid},function(error,results) {
 //         if(error) {
@@ -93,8 +99,9 @@
 //   startAuction();
   
 // });
-const inquirer = require("inquirer");
-require("console.table");
+// const inquirer = require("inquirer");
+// require("console.table");
+// const connection = require("./connection.js")
 
 
 function start(){
@@ -318,7 +325,7 @@ function start(){
         start(); 
 
         module.import = connection;
-        
+
       }
     )
   })
