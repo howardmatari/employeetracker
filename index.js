@@ -1,8 +1,6 @@
 const inquirer = require("inquirer");
 require("console.table");
-const connection = require("./connection.js")
-
-
+const connection = require("./connection.js");
 
 // function insertProduct(item_name,category,starting_bid) {
 //     connection.query(`INSERT INTO auctions SET ?`,{item_name,category,starting_bid,highest_bid:starting_bid},function(error,results) {
@@ -97,237 +95,235 @@ const connection = require("./connection.js")
 // connection.connect(function(err) {
 //   if (err) throw err;
 //   startAuction();
-  
+
 // });
 // const inquirer = require("inquirer");
 // require("console.table");
 // const connection = require("./connection.js")
 
-
-function start(){
-    inquirer
-    .prompt ([
+function start() {
+  inquirer
+    .prompt([
       {
-        type: "list", 
+        type: "list",
         message: "What would you like to do?",
         name: "start",
         choices: [
-        "Add Employee", 
-        "View all Employees", 
-        "Remove Employee",
-        "Add Department", 
-        "View all Departments",
-        "Add Roles", 
-        "View all Roles", 
-        "Update Employee Role", 
-        "Exit"
-      ]
-      }
+          "Add Employee",
+          "View all Employees",
+          "Remove Employee",
+          "Add Department",
+          "View all Departments",
+          "Add Roles",
+          "View all Roles",
+          "Update Employee Role",
+          "Exit",
+        ],
+      },
     ])
-    .then (function(res){
-      switch (res.start){
-  
+    .then(function (res) {
+      console.log(res);
+      switch (res.start) {
         case "Add Employee":
-        addEmployee();
-        break;
-       
+          addEmployee();
+          break;
+
         case "View all Employees":
-        viewAllEmployees();
-        break; 
-  
-        case "Remove Employee": 
-        removeEmployee(); 
-        break;
-      
-        case "Add Department": 
-        addDept(); 
-        break;
-  
+          viewAllEmployees();
+          break;
+
+        case "Remove Employee":
+          removeEmployee();
+          break;
+
+        case "Add Department":
+          addDept();
+          break;
+
         case "View all Departments":
-        viewAllDept();
-        break;
-  
-        case "Add Roles": 
-        addRole(); 
-        break;
-  
-        case "View all Roles": 
-        viewAllRoles(); 
-        break;
-      
+          viewAllDept();
+          break;
+
+        case "Add Roles":
+          addRole();
+          break;
+
+        case "View all Roles":
+          viewAllRoles();
+          break;
+
         case "Update Employee Role":
-        updateEmployeeRole(); 
-        break;
-  
+          updateEmployeeRole();
+          break;
+
         case "Exit":
-        connection.end(); 
-        break; 
+          connection.end();
+          break;
       }
-    })
-  }
+    });
+}
 
-  start ()
+start();
 
-  
-  
-  function addEmployee() {
+function addEmployee() {
   console.log("Inserting a new employee.");
-  inquirer 
-    .prompt ([ 
+  inquirer
+    .prompt([
       {
-        type: "input", 
+        type: "input",
         message: "First Name?",
         name: "first_name",
       },
       {
-        type: "input", 
+        type: "input",
         message: "Last Name?",
-        name: "last_name"
+        name: "last_name",
       },
       {
         type: "list",
         message: "What is the employee's role?",
-        name: "role_id", 
-        choices: [1,2,3,4,5,6,7,8]
+        name: "role_id",
+        choices: [1, 2, 3, 4, 5, 6, 7, 8],
       },
       {
-        type: "input", 
+        type: "input",
         message: "Who is their manager?",
-        name: "manager_id"
-      }
+        name: "manager_id",
+      },
     ])
-    .then (function(res){
+    .then(function (res) {
       //const query = connection.query(
-        "INSERT INTO employees SET ?", 
-       res,
-        function(err, res) {
+      "INSERT INTO employees SET ?",
+        res,
+        function (err, res) {
           if (err) throw err;
-          console.log( "Employee added!");
-  
-          start (); 
-        }
+          console.log("Employee added!");
+
+          start();
+        };
       //);
-    })
-  }
-  function viewAllEmployees() {
-  
-    connection.query("SELECT employees.first_name, employees.last_name, roles.title AS \"role\", managers.first_name AS \"manager\" FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN employees managers ON employees.manager_id = managers.id GROUP BY employees.id",  
-    function(err, res) {
+    });
+}
+function viewAllEmployees() {
+  connection.query(
+    'SELECT employees.first_name, employees.last_name, roles.title AS "role", managers.first_name AS "manager" FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN employees managers ON employees.manager_id = managers.id GROUP BY employees.id',
+    function (err, res) {
       if (err) throw err;
       // Log all results of the SELECT statement
       console.table(res);
       start();
-    });
-  }
-  
-  function removeEmployee(){
-    let employeeList = [];
-    connection.query(
-      "SELECT employees.first_name, employees.last_name FROM employees", (err,res) => {
-        for (let i = 0; i < res.length; i++){
-          employeeList.push(res[i].first_name + " " + res[i].last_name);
-        }
-    inquirer 
-    .prompt ([ 
-      {
-        type: "list", 
-        message: "Which employee would you like to delete?",
-        name: "employee",
-        choices: employeeList
-  
-      },
-    ])
-    .then (function(res){
-      const query = connection.query(
-        `DELETE FROM employees WHERE concat(first_name, ' ' ,last_name) = '${res.employee}'`,
-          function(err, res) {
-          if (err) throw err;
-          console.log( "Employee deleted!");
-       start();
-      });
-      });
+    }
+  );
+}
+
+function removeEmployee() {
+  let employeeList = [];
+  connection.query(
+    "SELECT employees.first_name, employees.last_name FROM employees",
+    (err, res) => {
+      for (let i = 0; i < res.length; i++) {
+        employeeList.push(res[i].first_name + " " + res[i].last_name);
       }
-        );
-        };
-  
-  function addDept(){
-    inquirer
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            message: "Which employee would you like to delete?",
+            name: "employee",
+            choices: employeeList,
+          },
+        ])
+        .then(function (res) {
+          const query = connection.query(
+            `DELETE FROM employees WHERE concat(first_name, ' ' ,last_name) = '${res.employee}'`,
+            function (err, res) {
+              if (err) throw err;
+              console.log("Employee deleted!");
+              start();
+            }
+          );
+        });
+    }
+  );
+}
+
+function addDept() {
+  inquirer
     .prompt([
       {
         type: "input",
-        name: "deptName", 
-        message: "What Department would you like to add?"
-      }
+        name: "deptName",
+        message: "What Department would you like to add?",
+      },
     ])
-    .then(function(res){
+    .then(function (res) {
       console.log(res);
       const query = connection.query(
-        "INSERT INTO departments SET ?", 
+        "INSERT INTO departments SET ?",
         {
-          name: res.deptName
-        }, 
-        function(err, res){
-          connection.query("SELECT * FROM departments", function(err, res){
-            console.table(res); 
-            start(); 
-          })
+          name: res.deptName,
+        },
+        function (err, res) {
+          connection.query("SELECT * FROM departments", function (err, res) {
+            console.table(res);
+            start();
+          });
         }
-      )
-    })
-  }
-  
-  function viewAllDept(){
-  connection.query ("SELECT * FROM departments", function(err, res){
+      );
+    });
+}
+
+function viewAllDept() {
+  connection.query("SELECT * FROM departments", function (err, res) {
     console.table(res);
     start();
-  })
-  }
-  
-  function addRole() {
-    let departments= []; 
-  connection.query("SELECT * FROM departments", function(err,res){
-    if(err) throw err;
-    for (let i=0; i <res.length; i++){
-      res[i].first_name + " " + res[i].last_name
-      departments.push({name: res[i].name, value: res[i].id});
-    }
-  inquirer
-  .prompt([
-    {
-      type: "input", 
-      name: "title",
-      message: "What role would you like to add?"
-    },
-    {
-      type: "input",
-      name: "salary",
-      message: "What is the salary for the role?"
-    },
-    {
-      type: "list",
-      name: "department",
-      message: "what department?",
-      choices: departments
-    }
-  ])
-  .then (function(res){
-    console.log(res); 
-    const query = connection.query(
-      "INSERT INTO roles SET ?",
-      {
-        title: res.title,
-        salary: res.salary,
-        department_id: res.department
-      }, 
-      function (err, res){
-        if (err) throw err;
-        //const id = res.insertId;
-        start(); 
+  });
+}
 
-        module.import = connection;
+function addRole() {
+  let departments = [];
+  connection.query("SELECT * FROM departments", function (err, res) {
+    if (err) throw err;
+    for (let i = 0; i < res.length; i++) {
+      res[i].first_name + " " + res[i].last_name;
+      departments.push({ name: res[i].name, value: res[i].id });
+    }
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "title",
+          message: "What role would you like to add?",
+        },
+        {
+          type: "input",
+          name: "salary",
+          message: "What is the salary for the role?",
+        },
+        {
+          type: "list",
+          name: "department",
+          message: "what department?",
+          choices: departments,
+        },
+      ])
+      .then(function (res) {
+        console.log(res);
+        const query = connection.query(
+          "INSERT INTO roles SET ?",
+          {
+            title: res.title,
+            salary: res.salary,
+            department_id: res.department,
+          },
+          function (err, res) {
+            if (err) throw err;
+            //const id = res.insertId;
+            start();
 
-      }
-    )
-  })
-  })
-  }
+            module.import = connection;
+          }
+        );
+      });
+  });
+}
