@@ -93,7 +93,7 @@
 //   startAuction();
   
 // });
-const {prompt} = require("inquirer");
+const inquirer = require("inquirer");
 require("console.table");
 
 
@@ -158,6 +158,10 @@ function start(){
       }
     })
   }
+
+  start ()
+
+  
   
   function addEmployee() {
   console.log("Inserting a new employee.");
