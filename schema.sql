@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `employees`.`department` (
   `last_name` VARCHAR(30) NOT NULL,
   `role_id` INT NOT NULL,
   `Employee_id` INT NOT NULL,
+  `manager_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Employee_role1_idx` (`role_id` ASC),
   INDEX `fk_Employee_Employee1_idx` (`Employee_id` ASC),

@@ -42,7 +42,8 @@
 
 const util = require("util");
 const mysql = require("mysql");
-//const connection = require("./connection")
+const { start } = require("repl");
+const test = require("./index.js")
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -59,7 +60,8 @@ const connection = mysql.createConnection({
 
 connection.connect(function (err) {
     if (err) throw err;
-    console.log("Connected!");
+    // console.log("Connected!");
+    test();
   });
 //     console.log("Connected!");
 //     const sql = "CREATE TABLE employees (name VARCHAR(30), id INT, title VARCHAR(30), department_name VARCHAR(30), salary DECIMAL "
